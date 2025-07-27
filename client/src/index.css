@@ -1,0 +1,35 @@
+
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+body {
+    overflow: hidden;
+    font-family: "Tiny5", sans-serif;';
+}
+
+.keyCatcher {
+    width: 1280px;
+    height: 800px;
+
+    outline: none;
+}
+
+.container {
+    width: 1280px;
+    height: 800px;
+
+    outline: none;
+}
+
+
+.phone {
+    position: absolute;
+    top: -177px;
+    left: 16px;
+    cursor: pointer;
+
+    width: 50px;
+    height: 50px;
+}
