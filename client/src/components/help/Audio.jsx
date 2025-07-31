@@ -11,7 +11,9 @@ export function AudioBackground({audioStop, audioSrc, children}) {
         const audio = new Audio(audioSrc)
         audio.volume = 0.1
         audio.loop = true
-        audio.play()
+        audio.play().catch((err) => {
+            console.warn("Не удалось воспроизвести аудио:", err);
+        });
 
         audioRef.current = audio
 
@@ -29,7 +31,9 @@ export function AudioBackground({audioStop, audioSrc, children}) {
             audio.pause()
         } else {
             audio.currentTime = 0
-            audio.play()
+            audio.play().catch((err) => {
+                console.warn("Ошибка при повторном воспроизведении:", err);
+            });
         }
     }, [audioStop])
 

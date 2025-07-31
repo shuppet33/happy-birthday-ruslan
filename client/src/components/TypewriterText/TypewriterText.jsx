@@ -6,15 +6,13 @@ const audio2 = new Audio('../../public/speakAudio-2.mp3')
 audio2.volume = 0.1
 
 
-export function TypewriterText({ text }) {
+export function TypewriterText({ text, isDone, setIsDone }) {
     const [index, setIndex] = useState(0)
-    const [isDone, setIsDone] = useState(false)
     const [visibleText, setVisibleText] = useState('')
 
     useEffect(() => {
-
         if (index >= text.length) {
-            setIsDone(true)
+            setIsDone()
             return;
         }
 

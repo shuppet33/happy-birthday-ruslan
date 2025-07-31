@@ -46,46 +46,37 @@ export function SceneOne({state, setState}) {
 
 
     if (state === true) {
-        return (<KeyCatcher>
+        return (<>
             <FadeOverlay fadeType={'out'}/>
             <Scene props={{
                 backgroundImg: '../public/scene-1-5.png', imgSrc: '../public/Teeest.png'
             }}>
             </Scene>
-        </KeyCatcher>)
+        </>)
     }
 
     if (audioStop) {
 
         return (<>
-            <KeyCatcher>
                 <Scene props={slides[4]}>
-                    <SButtonNext onClick={setState}>
-                        далеe
-                    </SButtonNext>
+                    <SButtonNext onClick={setState} />
                 </Scene>
-            </KeyCatcher>
         </>)
     }
 
     return (<>
-        <KeyCatcher>
             {!started && <SStarted>
                 <div onClick={() => setStarted(true)} className="button">Начать</div>
             </SStarted>}
             {started && <FadeOverlay fadeType={'in'}/>}
 
             {started && slidesIndex === 0 && <Scene props={slides[0]}>
-                <SButtonNext onClick={() => setSlidesIndex(prev => prev + 1)}>
-                    далеe
-                </SButtonNext>
+                <SButtonNext onClick={() => setSlidesIndex(prev => prev + 1)} />
             </Scene>}
 
             {slidesIndex === 1 && <AudioBackground audioSrc={'../public/alarm-mp.mp3'} audioStop={audioStop}>
                 <Scene props={slides[1]}>
-                    <SButtonNext onClick={() => setSlidesIndex(prev => prev + 1)}>
-                        далеe
-                    </SButtonNext>
+                    <SButtonNext onClick={() => setSlidesIndex(prev => prev + 1)} />
 
                     <div onClick={() => setAudioStop(true)} className={'phone'}/>
                 </Scene>
@@ -95,9 +86,7 @@ export function SceneOne({state, setState}) {
             {!audioStop && slidesIndex === 2 &&
                 <AudioBackground audioSrc={'../public/alarm-mp.mp3'} audioStop={audioStop}>
                     <Scene props={slides[2]}>
-                        <SButtonNext onClick={() => setSlidesIndex(prev => prev + 1)}>
-                            далеe
-                        </SButtonNext>
+                        <SButtonNext onClick={() => setSlidesIndex(prev => prev + 1)} />
 
                         <div onClick={() => setAudioStop(true)} className={'phone'}/>
                     </Scene>
@@ -110,6 +99,5 @@ export function SceneOne({state, setState}) {
                     </Scene>
                 </AudioBackground>}
 
-        </KeyCatcher>
     </>)
 }

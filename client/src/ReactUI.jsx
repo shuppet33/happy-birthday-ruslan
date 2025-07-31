@@ -23,7 +23,6 @@ export default function ReactUI() {
 
 
     return (<>
-        <KeyCatcher>
             <SceneOne state={scenes.one} setState={() => setScenes({
                 one: true,
                 two: false,
@@ -31,7 +30,6 @@ export default function ReactUI() {
                 four: false,
                 five: false
             })} />
-        </KeyCatcher>
     </>)
 }
 

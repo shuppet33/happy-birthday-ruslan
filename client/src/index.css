@@ -8,6 +8,17 @@ body {
     overflow: hidden;
     font-family: "Tiny5", sans-serif;';
 }
+ #ui {
+     box-sizing: border-box;
+     overflow: hidden;
+
+     display: flex;
+     align-items: center;
+     justify-content: center;
+
+     width: 95vw;
+     height: 95vh;
+ }
 
 .keyCatcher {
     width: 1280px;
