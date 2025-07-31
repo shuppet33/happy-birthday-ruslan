@@ -1,7 +1,5 @@
-import {SLayout, SLayoutWrapper} from "../../Layout.styles.js";
-import {Dialog} from "../Dialog/Dialog.jsx";
-import {useEffect, useRef, useState} from "react";
-import {AnimatedBackground} from "../AnimatedBackground/AnimatedBackground.jsx";
+import {useEffect, useState} from "react";
+import {SLayout, SLayoutWrapper} from "./Layout.styles.js";
 
 
 

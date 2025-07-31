@@ -17,10 +17,15 @@ export const SImageDialog = styled.div`
     background-size: cover;
     background-repeat: no-repeat;
 `
+export const SDialogBoxWrapper = styled.div`
+    flex-shrink: 0;
+    width: 100%;
+`
+
 
 export const SDialogBox = styled.div`
     width: 100%;
-    height: 200px;
+    height: 210px;
     max-width: 962px;
     
     position: relative;
@@ -29,7 +34,6 @@ export const SDialogBox = styled.div`
     border: 10px solid #100f0f;
     color: #efefef;
     padding: 20px;
-    font-family: "Tiny5", sans-serif;
     font-size: 32px;
     box-sizing: border-box;
     backdrop-filter: blur(4px);

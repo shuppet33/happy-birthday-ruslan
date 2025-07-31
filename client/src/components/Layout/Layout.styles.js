@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import {keyframes} from "motion";
 
 export const SLayoutWrapper = styled.div`
     width: 100%;

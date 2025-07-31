@@ -30,5 +30,5 @@ export const SFadeOverlay = styled.div`
     z-index: 999;
 
     opacity: ${({$fadeType}) => ($fadeType === 'in' ? 1 : 0)};
-    animation: ${({$fadeType}) => $fadeType === 'in' ? css`${fadeIn} 2s ease forwards` : css`${fadeOut} 2s ease forwards`};
+    animation: ${({$fadeType}) => $fadeType === 'in' ? css`${fadeIn} 3s ease forwards` : css`${fadeOut} 3s ease forwards`};
 `

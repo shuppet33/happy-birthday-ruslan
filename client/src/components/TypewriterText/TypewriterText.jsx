@@ -11,7 +11,6 @@ export function TypewriterText({ text }) {
     const [isDone, setIsDone] = useState(false)
     const [visibleText, setVisibleText] = useState('')
 
-
     useEffect(() => {
 
         if (index >= text.length) {

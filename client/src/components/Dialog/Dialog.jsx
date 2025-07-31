@@ -1,13 +1,15 @@
-import {SDialogBox, SDialogWrapper, SImageDialog} from "./Dialog.styles.js";
+import {SDialogBox, SDialogBoxWrapper, SDialogWrapper, SImageDialog} from "./Dialog.styles.js";
 
 
 export function Dialog({imgSrc, children}) {
     return (
         <SDialogWrapper>
             <SImageDialog $imgSrc={imgSrc} />
-            <SDialogBox>
-                {children}
-            </SDialogBox>
+            <SDialogBoxWrapper>
+                <SDialogBox>
+                    {children}
+                </SDialogBox>
+            </SDialogBoxWrapper>
         </SDialogWrapper>
     )
 }
