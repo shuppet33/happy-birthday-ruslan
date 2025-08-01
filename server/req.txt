@@ -1,2 +1,4 @@
+git
 fastapi[full]
 uvicorn
+requests
