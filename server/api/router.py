@@ -6,10 +6,6 @@ from typing import List
 
 router = APIRouter()
 
-@router.get('/')
-def get():
-    return JSONResponse({'result':'True'})
-
 class Code(BaseModel):
     code: str
     func_name: str
