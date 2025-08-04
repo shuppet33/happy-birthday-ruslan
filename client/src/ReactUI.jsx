@@ -1,16 +1,18 @@
 import {useState} from "react";
-import {KeyCatcher} from "./components/help/KeyCatcher.jsx";
 import {SceneOne} from './components/SceneOne.jsx'
 import {SceneTwo} from './components/SceneTwo.jsx'
+import {SStarted} from "./all.styles.js";
+import {FadeOverlay} from "./components/FadeOverlay/FadeOverlay.jsx";
+
 
 
 
 
 export default function ReactUI() {
 
-
+    const [started, setStarted] = useState(false)
     const [scenes, setScenes] = useState({
-        one: false,
+        one: true,
         two: false,
         three: false,
         four: false,
@@ -18,18 +20,32 @@ export default function ReactUI() {
     })
 
     if (scenes.one) {
-        return <SceneTwo />
+        return (
+            <>
+                <FadeOverlay fadeType={'in'}/>
+                <SceneTwo />
+            </>
+        )
     }
 
 
     return (<>
-            <SceneOne state={scenes.one} setState={() => setScenes({
-                one: true,
-                two: false,
-                three: false,
-                four: false,
-                five: false
-            })} />
+        {!started && <SStarted>
+            <div onClick={() => setStarted(true)} className="button">Начать</div>
+        </SStarted>}
+
+        {started && <FadeOverlay fadeType={'in'}/>}
+        {started && (
+            <>
+                <FadeOverlay fadeType={'in'}/>
+                <SceneOne state={scenes.one} setState={() => setScenes({
+                    one: true,
+                    two: false,
+                    three: false,
+                    four: false,
+                    five: false
+                })} />
+            </>)}
     </>)
 }
 

@@ -16,7 +16,7 @@ export function Scene({props, children}) {
     }
 
 
-    return (<Layout backgroundImg={props.backgroundImg} speed={props.speed}>
+    return (<Layout backgroundSize={props.backgroundSize} backgroundImg={props.backgroundImg} speed={props.speed}>
         {(props.imgSrc || props.text) && <Dialog imgSrc={props.imgSrc}>
 
             <div>{props.dialogue.name}:</div>
