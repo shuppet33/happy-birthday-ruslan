@@ -42,16 +42,6 @@ export function SceneOne({state, setState}) {
     const [audioStop, setAudioStop] = useState(false)
 
 
-    if (state === true) {
-        return (<>
-            <FadeOverlay fadeType={'out'}/>
-            <Scene props={{
-                backgroundImg: '../public/scene-1-5.png', imgSrc: '../public/Teeest.png'
-            }}>
-            </Scene>
-        </>)
-    }
-
     if (audioStop) {
 
         return (<>
@@ -67,7 +57,7 @@ export function SceneOne({state, setState}) {
             <SButtonNext onClick={() => setSlidesIndex(prev => prev + 1)}/>
         </Scene>}
 
-        {slidesIndex === 1 && <AudioBackground audioSrc={'../public/alarm-mp.mp3'} audioStop={audioStop}>
+        {slidesIndex === 1 && <AudioBackground audioSrc={'../public/music/alarm-mp.mp3'} audioStop={audioStop}>
             <Scene props={slides[1]}>
                 <SButtonNext onClick={() => setSlidesIndex(prev => prev + 1)}/>
 
@@ -76,7 +66,7 @@ export function SceneOne({state, setState}) {
         </AudioBackground>}
 
 
-        {!audioStop && slidesIndex === 2 && <AudioBackground audioSrc={'../public/alarm-mp.mp3'} audioStop={audioStop}>
+        {!audioStop && slidesIndex === 2 && <AudioBackground audioSrc={'../public/music/alarm-mp.mp3'} audioStop={audioStop}>
             <Scene props={slides[2]}>
                 <SButtonNext onClick={() => setSlidesIndex(prev => prev + 1)}/>
 
@@ -84,7 +74,7 @@ export function SceneOne({state, setState}) {
             </Scene>
         </AudioBackground>}
 
-        {!audioStop && slidesIndex === 3 && <AudioBackground audioSrc={'../public/alarm-mp.mp3'} audioStop={audioStop}>
+        {!audioStop && slidesIndex === 3 && <AudioBackground audioSrc={'../public/music/alarm-mp.mp3'} audioStop={audioStop}>
             <Scene props={slides[3]}>
                 <div onClick={() => setAudioStop(true)} className={'phone'}/>
             </Scene>

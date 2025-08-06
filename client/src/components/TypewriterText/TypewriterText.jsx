@@ -2,7 +2,7 @@ import {useEffect, useState} from 'react'
 import {Cursor} from "./Cursor.jsx";
 
 
-const audio2 = new Audio('../../public/speakAudio-2.mp3')
+const audio2 = new Audio('../../public/music/speakAudio-2.mp3')
 audio2.volume = 0.1
 
 

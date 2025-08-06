@@ -1,7 +1,6 @@
 import {useEffect, useRef} from "react";
-import {Scene} from './Scene/Scene.jsx'
 import {styled} from "styled-components";
-import initGame from "../initGame.js";
+import initGameSceneTwoContext from "../game/initGameSceneTwo";
 
 
 const slides = [
@@ -13,7 +12,7 @@ const slides = [
 
 const SGameWrapper = styled.div`
     width: 1280px;
-    height: 840px;
+    height: 870px;
     display: flex;
     padding: 10px 10px 10px 10px;
     
@@ -38,7 +37,7 @@ export function SceneTwo() {
         const ctx = canvas.getContext('2d')
         if (!ctx) return;
 
-        initGame(ctx)
+        initGameSceneTwoContext(ctx)
 
     }, [])
 
@@ -48,7 +47,7 @@ export function SceneTwo() {
                 <SGame>
                     <canvas
                         width={745}
-                        height={840}
+                        height={870}
                         ref={canvasRef}
                         style={{
                             border: '1px solid black',
