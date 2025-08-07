@@ -116,6 +116,22 @@ function initGameSceneTwo(ctx, img) {
         ctx.drawImage(ruslan, sx, sy, sw, sh, ruslanX, ruslanY, dw, dh);
     }
 
+    const keyses = {
+            ArrowDown: "ArrowDown",
+            ArrowUp: "ArrowUp",
+            ArrowLeft: "ArrowLeft",
+            ArrowRight: "ArrowRight"
+        }
+    
+    const keys = {
+            ArrowDown: "s",
+            ArrowUp: "w",
+            ArrowLeft: "a",
+            ArrowRight: "d"
+        }   
+
+    let wasd = true;
+
     document.addEventListener('keydown', (e) => {
 
         if (e.key === 'b' || e.key === 'B') {
@@ -123,37 +139,99 @@ function initGameSceneTwo(ctx, img) {
             return
         }
 
-        if (['ArrowDown', 'ArrowUp', 'ArrowLeft', 'ArrowRight'].includes(e.key) && !animTimer) {
+        if (e.code === "ControlLeft" && e.code === "Slash") {   //Почему-то не регистрирует нажатие
+            
+            if (!wasd) {
+                keys.ArrowDown = "s";
+                keys.ArrowUp = "w";
+                keys.ArrowLeft = "a";
+                keys.ArrowRight = "d";
+                wasd = true;
+            }
+            else {
+                keys.ArrowDown = "ArrowDown";
+                keys.ArrowUp = "ArrowUp";
+                keys.ArrowLeft = "ArrowLeft";
+                keys.ArrowRight = "ArrowRight";
+                wasd = false;
+            }
+            
+        }
+        
+        if ([keys.ArrowDown, keys.ArrowUp, keys.ArrowLeft, keys.ArrowRight].includes(e.key) && !animTimer) {
             animTimer = setInterval(() => {
                 currentFrame++
                 if (currentFrame > 2) currentFrame = 1
 
+                console.log(e.key);
+
                 let nextX = ruslanX;
                 let nextY = ruslanY;
 
-                if (e.key === 'ArrowDown') nextY += moveSpeed;
-                if (e.key === 'ArrowUp') nextY -= moveSpeed;
-                if (e.key === 'ArrowRight') nextX += moveSpeed;
-                if (e.key === 'ArrowLeft') nextX -= moveSpeed;
+                if (e.key.toLowerCase() === keys.ArrowDown.toLowerCase()) nextY += moveSpeed;
+                if (e.key.toLowerCase() === keys.ArrowUp.toLowerCase()) nextY -= moveSpeed;
+                if (e.key.toLowerCase() === keys.ArrowRight.toLowerCase()) nextX += moveSpeed;
+                if (e.key.toLowerCase() === keys.ArrowLeft.toLowerCase()) nextX -= moveSpeed;
 
                 if (!isBlocked(nextX, nextY, ruslanObj.drawWidth, ruslanObj.drawHeight)) {
                     ruslanX = nextX;
                     ruslanY = nextY;
                 }
 
-                const direction = e.key.replace('Arrow', '').toLowerCase();
-                drawFrame(currentFrame, `move-${direction}`)
+                let direction = '';
+                if (!wasd) {
+                    direction = e.key.replace('Arrow', '').toLowerCase();
+                    drawFrame(currentFrame, `move-${direction}`)
+                }
+                else {
+                    switch(e.key.toLowerCase()) {
+                        case 'w':
+                            direction = 'up';
+                            break;
+                        case 's':
+                            direction = 'down';
+                            break;                        
+                        case 'a':
+                            direction = 'left';
+                            break;
+                        case 'd':
+                            direction = 'right';
+                            break;                            
+                    }
+                    drawFrame(currentFrame, `move-${direction}`);
+                }
             }, 75)
         }
     })
     document.addEventListener('keyup', (e) => {
-        if (['ArrowDown', 'ArrowUp', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+        if ([keys.ArrowDown, keys.ArrowUp, keys.ArrowLeft, keys.ArrowRight].includes(e.key)) {
             clearInterval(animTimer)
             animTimer = null
             currentFrame = 3
 
-            const direction = e.key.replace('Arrow', '').toLowerCase();
-            drawFrame(currentFrame, `move-${direction}`)
+            let direction = '';
+            if (!wasd) {
+                direction = e.key.replace('Arrow', '').toLowerCase();
+                drawFrame(currentFrame, `move-${direction}`)
+            }
+            else {
+                switch(e.key.toLowerCase()) {
+                case 'w':
+                    direction = 'up';
+                    break;
+                case 's':
+                    direction = 'down';
+                    break;                        
+                case 'a':
+                    direction = 'left';
+                    break;
+                case 'd':
+                    direction = 'right';
+                    break;                            
+                }
+                drawFrame(currentFrame, `move-${direction}`);
+            }
+            
         }
     })
 }

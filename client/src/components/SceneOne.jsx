@@ -30,7 +30,9 @@ const slides = [{
     },
     speed: 600
 }, {
-    backgroundImg: '../public/scene-1-5.png', imgSrc: '../public/ruslan-sleep-4.png', dialogue: {
+    backgroundImg: '../public/scene-1-5.png', 
+    imgSrc: '../public/ruslan-sleep-4.png', 
+    dialogue: {
         name: 'Руслан', text: 'спасибо.. пора вставать...в этот чёртов колледж.',
     },
 },]
