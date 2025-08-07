@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, {keyframes} from "styled-components";
 
 export const SDialogWrapper = styled.div`
     width: 100%;
@@ -17,11 +17,16 @@ export const SImageDialog = styled.div`
     background-size: cover;
     background-repeat: no-repeat;
 `
+export const SDialogBoxWrapper = styled.div`
+    flex-shrink: 0;
+    width: 100%;
+`
+
 
 export const SDialogBox = styled.div`
     width: 100%;
-    height: 200px;
-    max-width: 962px;
+    height: 210px;
+    max-width: 970px;
     
     position: relative;
     
@@ -29,20 +34,45 @@ export const SDialogBox = styled.div`
     border: 10px solid #100f0f;
     color: #efefef;
     padding: 20px;
-    font-family: "Tiny5", sans-serif;
     font-size: 32px;
     box-sizing: border-box;
     backdrop-filter: blur(4px);
     flex-shrink: 0;
     word-wrap: break-word;
 `
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+`;
 
+const levitate = keyframes`
+    0% {
+        transform: translateY(-10px);
+    }
+    50% {
+        transform: translateY(0px);
+    }
+    100% {
+        transform: translateY(-10px);
+    }
+`;
 export const SButtonNext = styled.div`
     position: absolute;
-    right: 0;
-    bottom: 0;
-    padding: 20px;
-    border: 10px solid black;
+    right: 15px;
+    bottom: 15px;
+    width: 50px;
+    height: 35px;
     cursor: pointer;
+    background-image: url('./arrow-next.svg');
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0;
+    animation:
+            ${fadeIn} 0.5s ease forwards,      
+            ${levitate} 2s ease-in-out infinite;
 `
 

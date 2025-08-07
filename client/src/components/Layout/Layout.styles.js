@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import {keyframes} from "motion";
 
 export const SLayoutWrapper = styled.div`
     width: 100%;
@@ -20,7 +19,9 @@ export const SLayout = styled.div`
 
     background-image: url(${({$backgroundImg}) => $backgroundImg});
     background-color: ${({$backgroundColor}) => $backgroundColor};
-    background-size: cover;
+    background-size: ${({$backgroundSize}) => $backgroundSize || 'cover'};
     background-repeat: no-repeat;
+
+    box-shadow: 0 4px 4px #0000008f;
 ]
 `

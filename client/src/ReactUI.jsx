@@ -1,87 +1,51 @@
-import {FadeOverlay} from "./components/FadeOverlay/FadeOverlay.jsx";
-import {KeyCatcher} from "./components/help/KeyCatcher.jsx";
 import {useState} from "react";
-import {SceneOne} from "./components/SceneOne.jsx";
-import {SButtonNext} from "./components/Dialog/Dialog.styles.js";
+import {SceneOne} from './components/SceneOne.jsx'
+import {SceneTwo} from './components/SceneTwo.jsx'
 import {SStarted} from "./all.styles.js";
-import {AudioBackground} from "./components/help/Audio.jsx";
-
-const slides = [{
-    backgroundImg: '../public/scene-1-5.png', imgSrc: '../public/Teeest.png', text: 'хрррр... * Спит *'
-}, {
-    backgroundImg: ['../public/scene-1-gif-1.png', '../public/scene-1-gif-2.png', '../public/scene-1-gif-3.png'], imgSrc: '../public/Teeest.png', text: '...?', speed: 600
-}, {
-    backgroundImg: ['../public/scene-1-gif-1.png', '../public/scene-1-gif-2.png', '../public/scene-1-gif-3.png'], imgSrc: '../public/Teeest.png', text: 'Черт.. Будильник... Кто-нибудь выключите, умоляю...', speed: 600
-}, {
-    backgroundImg: ['../public/scene-1-gif-1.png', '../public/scene-1-gif-2.png', '../public/scene-1-gif-3.png'], imgSrc: '../public/Teeest.png', text: 'Выключите...', speed: 600
-},]
+import {FadeOverlay} from "./components/FadeOverlay/FadeOverlay.jsx";
 
 
-export default function ReactUI() {
+
+
+
+export default function  ReactUI() {
 
     const [started, setStarted] = useState(false)
-    const [loading, setLoading] = useState({
-        sceneOne: {
-            fadeOverlay: true, scene: true
-        }
+    const [scenes, setScenes] = useState({
+        one: true,
+        two: false,
+        three: false,
+        four: false,
+        five: false
     })
-    const [slidesIndex, setSlidesIndex] = useState(0)
-    const [audioStop, setAudioStop] = useState(false)
 
-
-    const nextSlide = (e) => {
-        setSlidesIndex(prev => prev + 1)
-    }
-
-    if (audioStop) {
-        return <div>аххахахахах лошара</div>
+    if (scenes.one) {
+        return (
+            <>
+                <FadeOverlay fadeType={'in'}/>
+                <SceneTwo />
+            </>
+        )
     }
 
 
     return (<>
-        <KeyCatcher>
-            {!started && <SStarted>
-                <div onClick={() => setStarted(true)} className="button">Начать</div>
-            </SStarted>}
-            {started && <FadeOverlay fadeType={'in'}/>}
-            {started && slidesIndex === 0 && <SceneOne props={slides[0]}>
-                <SButtonNext onClick={nextSlide}>
-                    далеe
-                </SButtonNext>
-            </SceneOne>}
+        {!started && <SStarted>
+            <div onClick={() => setStarted(true)} className="button">Начать</div>
+        </SStarted>}
 
-            {slidesIndex === 1 && <AudioBackground audioSrc={'../public/alarm-mp.mp3'} audioStop={audioStop}>
-                <SceneOne props={slides[1]}>
-                    <SButtonNext onClick={nextSlide}>
-                        далеe
-                    </SButtonNext>
-
-                    <div onClick={() => setAudioStop(true)} className={'phone'}/>
-                </SceneOne>
-            </AudioBackground>}
-
-
-            {!audioStop && slidesIndex === 2 && <AudioBackground audioSrc={'../public/alarm-mp.mp3'} audioStop={audioStop}>
-                <SceneOne props={slides[2]}>
-                    <SButtonNext onClick={nextSlide}>
-                        далеe
-                    </SButtonNext>
-
-                    <div onClick={() => setAudioStop(true)} className={'phone'}/>
-                </SceneOne>
-            </AudioBackground>}
-
-            {!audioStop && slidesIndex === 3 && <AudioBackground audioSrc={'../public/alarm-mp.mp3'} audioStop={audioStop}>
-                <SceneOne props={slides[3]}>
-                    <SButtonNext onClick={nextSlide}>
-                        далеe
-                    </SButtonNext>
-
-                    <div onClick={() => setAudioStop(true)} className={'phone'}/>
-                </SceneOne>
-            </AudioBackground>}
-            
-        </KeyCatcher>
+        {started && <FadeOverlay fadeType={'in'}/>}
+        {started && (
+            <>
+                <FadeOverlay fadeType={'in'}/>
+                <SceneOne state={scenes.one} setState={() => setScenes({
+                    one: true,
+                    two: false,
+                    three: false,
+                    four: false,
+                    five: false
+                })} />
+            </>)}
     </>)
 }
 

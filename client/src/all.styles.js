@@ -7,6 +7,8 @@ export const SStarted = styled.div`
     justify-content: center;
     align-items: center;
     background-color: #0D0C0C;
+
+    box-shadow: 0 4px 4px #0000008f;
     
     .button {
         font-size: 48px;

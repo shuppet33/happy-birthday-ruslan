@@ -1,11 +1,9 @@
-import {SLayout, SLayoutWrapper} from "../../Layout.styles.js";
-import {Dialog} from "../Dialog/Dialog.jsx";
-import {useEffect, useRef, useState} from "react";
-import {AnimatedBackground} from "../AnimatedBackground/AnimatedBackground.jsx";
+import {useEffect, useState} from "react";
+import {SLayout, SLayoutWrapper} from "./Layout.styles.js";
 
 
 
-export function Layout({children, backgroundImg, backgroundColor, speed = 500}) {
+export function Layout({children, backgroundImg, backgroundSize, backgroundColor, speed = 500}) {
 
     const [frameIndex, setFrameIndex] = useState(0);
 
@@ -27,8 +25,8 @@ export function Layout({children, backgroundImg, backgroundColor, speed = 500}) 
 
 
     return(
-        <SLayoutWrapper className={'backgroundBlack'}>
-            <SLayout $backgroundImg={currentFrame} $backgroundColor={backgroundColor}>
+        <SLayoutWrapper>
+            <SLayout $backgroundSize={backgroundSize} $backgroundImg={currentFrame} $backgroundColor={backgroundColor}>
                 {children}
             </SLayout>
         </SLayoutWrapper>
