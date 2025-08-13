@@ -1,0 +1,5 @@
+fastapi[full]
+uvicorn
+requests
+pydantic
+RestrictedPython
