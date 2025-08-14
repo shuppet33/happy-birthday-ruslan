@@ -12,7 +12,7 @@ const slides = [
 
 const SGameWrapper = styled.div`
     width: 1280px;
-    height: 870px;
+    height: 930px;
     display: flex;
     padding: 10px 10px 10px 10px;
     
@@ -47,10 +47,10 @@ export function SceneTwo() {
                 <SGame>
                     <canvas
                         width={745}
-                        height={870}
+                        height={900}
                         ref={canvasRef}
                         style={{
-                            border: '1px solid black',
+                            border: '0px solid black',
                             display: 'block',
                         }}
                     ></canvas>
