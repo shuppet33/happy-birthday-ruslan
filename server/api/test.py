@@ -1,11 +1,15 @@
-from RestrictedPython import compile_restricted, safe_globals
-from RestrictedPython.Eval import default_guarded_getiter
+from RestrictedPython import compile_restricted
+from RestrictedPython.Guards import safe_globals
+from RestrictedPython.Eval import default_guarded_getiter, default_guarded_getitem
+from RestrictedPython.Guards import guarded_iter_unpack_sequence
 safe_globals['__metaclass__'] = type
-safe_globals['__name__'] = 'test_restrictedpython'
+safe_globals['__name__'] = 'test'
 safe_globals['__builtins__'].update({"max": max})
 safe_globals['__builtins__'].update({"min": min})
 safe_globals['__builtins__'].update({"set": set})
 safe_globals['__builtins__'].update({"_getiter_": default_guarded_getiter})
+safe_globals['__builtins__'].update({"_getitem_": default_guarded_getitem})
+safe_globals['__builtins__'].update({"_iter_unpack_sequence_": guarded_iter_unpack_sequence})
 from random import randint
 from typing import Dict, Any
 import traceback
@@ -40,27 +44,59 @@ lists = [
             'result_list': [-1, -5, 2, 7, -1, 8, 2, -8, 7, -8, -7, 2, -1, -1, -5, -5, -9, -5, 2, -9, -7, -8, 7]}
 ]
 
-def safe_user_func(source_code):
+morseCode = {'A': '.-',     'B': '-...',   'C': '-.-.',
+        'D': '-..',    'E': '.',      'F': '..-.',
+        'G': '--.',    'H': '....',   'I': '..',
+        'J': '.---',   'K': '-.-',    'L': '.-..',
+        'M': '--',     'N': '-.',     'O': '---',
+        'P': '.--.',   'Q': '--.-',   'R': '.-.',
+        'S': '...',    'T': '-',      'U': '..-',
+        'V': '...-',   'W': '.--',    'X': '-..-',
+        'Y': '-.--',   'Z': '--..',
+
+        '0': '-----',  '1': '.----',  '2': '..---',
+        '3': '...--',  '4': '....-',  '5': '.....',
+        '6': '-....',  '7': '--...',  '8': '---..',
+        '9': '----.',
+
+        ' ': '-...-'
+        }
+
+words = [
+    {
+        "phrase": "hey jude", 
+        "morse": ".... . -.-- -...- .--- ..- -.. .", 
+        "binary": "101010100100111010111011100111010101011100101110111011100101011100111010100100"},
+    {
+        "phrase": "i love python", 
+        "morse": ".. -...- .-.. --- ...- . -...- .--. -.-- - .... --- -.", 
+        "binary": "101001110101010111001011101010011101110111001010101110010011101010101110010111011101001110101110111001110010101010011101110111001110100"},
+    {
+        "phrase": "best game", 
+        "morse": "-... . ... - -...- --. .- -- .", 
+        "binary": "11101010100100101010011100111010101011100111011101001011100111011100100"}
+]
+
+def safe_user_func(code: str, func_name: str):
 
     try:
-        byte_code = compile_restricted(source_code, '<string>', 'exec')
+        byte_code = compile_restricted(code, '<string>', 'exec')
     except SyntaxError as e:
-        return {"func": None, "message": f"Error in code: {e}"}
+        return {"func": None, "message": f"{e}"}
 
     try:
         exec(byte_code, safe_globals)
     except Exception as e:
-        return {"func": None, "message": "Error: {e}"}
+        return {"func": None, "message": f"{e}"}
 
-    return {"func": safe_globals['task'], "message": None}
+    return {"func": safe_globals[func_name], "message": None}
 
 # task1 - task about a binary trees
-def test1(source_code: str) -> Dict[str, Any]:
+def test1(source_code: str, func_name: str) -> Dict[str, Any]:
 
-    user_func, check_message = safe_user_func(source_code).values()
-    print(user_func)
+    user_func, check_message = safe_user_func(source_code, func_name).values()
     if check_message:
-        return {"res": '', "error": f"Error: {check_message}"}
+        return {"res": '', "tests": '', "error": check_message}
 
 
     test_result = []
@@ -96,9 +132,9 @@ def test1(source_code: str) -> Dict[str, Any]:
         return {"res": "False", "tests": tests, "error": ''}
 
 # task2 - task about list difference
-def test2(source_code: str) -> Dict[str, Any]:
+def test2(source_code: str, func_name: str) -> Dict[str, Any]:
 
-    user_func, check_message = safe_user_func(source_code).values()
+    user_func, check_message = safe_user_func(source_code, func_name).values()
     if check_message:
         return {"res": '', "tests": '', "error": f"Error: {check_message}"}
 
@@ -121,6 +157,45 @@ def test2(source_code: str) -> Dict[str, Any]:
                 tests.append({
                                 f"Test {i+1}:": f"Failed with value {result}",
                                 f"Expected value": {"["+', '.join(list(map(str,expected)))+"]"}
+                            })
+            print(f"Expected value: {expected}")
+        
+        except Exception as e:
+            print (traceback.format_exc())
+            return {"res": '', "tests": '', "error": f"Test failed with error: {e}"}
+    
+    if test_result:
+        return {"res": str(all(test_result)), "tests": tests, "error": ''}
+    else:
+        return {"res": "False", "tests": tests, "error": ''}
+
+
+# task3 - task about code Morse
+def test3(source_code: str, func_name: str) -> Dict[str, Any]:
+
+    user_func, check_message = safe_user_func(source_code, func_name).values()
+    if check_message:
+        return {"res": '', "tests": '', "error": f"Error: {check_message}"}
+
+    test_result = []
+    tests = []
+    for i, word in enumerate(words):
+        try:
+            result = user_func(word['morse'], morseCode)
+            expected = word['phrase'].lower()
+            if result == expected:
+                print(f"Test {i+1}: 'Passed' ")
+                test_result.append(1)
+                tests.append({
+                                f"Test {i+1}:": "Passed",
+                                f"Expected value": {expected}
+                            })
+            else:
+                print(f"Test {i+1}: Failed with value {result}")
+                test_result.append(0)
+                tests.append({
+                                f"Test {i+1}:": f"Failed with value {result}",
+                                f"Expected value": {expected}
                             })
             print(f"Expected value: {expected}")
         
