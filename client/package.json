@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "esbuild": "^0.25.9",
     "jotai": "^2.12.5",
     "kaplay": "4000.0.0-alpha.10",
     "motion": "^12.23.6",
