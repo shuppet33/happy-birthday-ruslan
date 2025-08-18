@@ -2,25 +2,20 @@ from fastapi import APIRouter, Request, Body
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 from typing import List
-
+from api.sandbox import safe_execute
 
 router = APIRouter()
 
+
 class Code(BaseModel):
+    task_id: int
     code: str
-    func_name: str
-    args: List[float]
 
-@router.post('/check')
-def checkResult(code: Code):
-    text_code = code.code
-    func_name = code.func_name
-    args = code.args
-    # return JSONResponse({'code': code,
-    #                      'func_name': func_name,
-    #                      'args': args})
-    return {'message':'Получена функция',
-            'Имя функции': func_name,
-            'Код': text_code,
-            'аргументы': args}
-
+@router.post('/execute')
+def checkResult(request_data: Code):
+    
+    text = request_data.code
+    id = request_data.task_id
+    
+    result = safe_execute(id, text)
+    return result
