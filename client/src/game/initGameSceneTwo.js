@@ -20,6 +20,12 @@ const walls = [
     {x: 73 * scale, y: (42 * scale) + 30, width: 15 * scale, height: 11 * scale},
     {x: 0, y: (92 * scale) + 30, width: 73 * scale, height: 3 * scale},
     {x: 73 * scale, y: (83 * scale) + 30, width: 16 * scale, height: 3 * scale},
+    {x: 53 * scale, y: (159 * scale) + 30, width: 15 * scale, height: 10 * scale},
+    {x: 11 * scale, y: (159 * scale) + 30, width: 15 * scale, height: 10 * scale},
+    {x: 27 * scale, y: (162 * scale) + 30, width: 25 * scale, height: 7 * scale},
+    {x: 13 * scale, y: (125 * scale) + 30, width: 10 * scale, height: 29 * scale},
+    {x: 99 * scale, y: (141 * scale) + 30, width: 45 * scale, height: 27 * scale},
+    {x: 113 * scale, y: (109 * scale) + 30, width: 31 * scale, height: 8 * scale},
 ];
 
 
@@ -59,15 +65,70 @@ const interactives = [
     },
     {
         name: 'умывальник',
-        x: 137 * scale,
-        y: (13 * scale) + 30,
-        width: 6 * scale,
-        height: 10 * scale,
+        x: 135 * scale,
+        y: (14 * scale) + 30,
+        width: 3 * scale,
+        height: 7 * scale,
         content: 'умывальник',
         state: false
     },
+    {
+        name: 'шкаф',
+        x: 59 * scale,
+        y: (156 * scale) + 30,
+        width: 3 * scale,
+        height: 3 * scale,
+        content: 'шкаф',
+        state: false
+    },
+    {
+        name: 'гладильная доска',
+        x: 23 * scale,
+        y: (125 * scale) + 30,
+        width: 3 * scale,
+        height: 29 * scale,
+        content: 'гладильная доска',
+        state: false
+    },
+    {
+        name: 'холодильник',
+        x: 6 * scale,
+        y: (20 * scale) + 30,
+        width: 13 * scale,
+        height: 3 * scale,
+        content: 'холодильник',
+        state: false
+    },
+    {
+        name: 'микроволновка',
+        x: 26 * scale,
+        y: (20 * scale) + 30,
+        width: 13 * scale,
+        height: 3 * scale,
+        content: 'микроволновка',
+        state: false
+    },
+    {
+        name: 'чашка с водой',
+        x: 35 * scale,
+        y: (54 * scale) + 30,
+        width: 18 * scale,
+        height: 16 * scale,
+        content: 'чашка с водой',
+        state: false
+    },
 ]
-
+let interactivesStep = 0
+const correctOrder = [
+    'туалет',
+    'душ',
+    'умывальник',
+    'шкаф',
+    'гладильная доска',
+    'холодильник',
+    'микроволновка',
+    'чашка с водой',
+];
 
 
 
@@ -75,7 +136,20 @@ function initGameSceneTwo(ctx, img) {
 
     ctx.imageSmoothingEnabled = false;
 
-    const [apartment, ruslan, dialogWindow] = img
+    const [
+        apartment,
+        ruslan,
+        dialogWindow,
+        dialogWindowCross,
+        dialogWindowCheck,
+        dialogToilet,
+        dialogShower,
+        dialogToothbrush,
+        dialogCloth,
+        dialogIroningboard,
+        dialogFridge,
+        dialogMicrowave,
+        dialogCup] = img
     const apartmentObj= {
         drawX: 0,
         drawY: 30,
@@ -107,7 +181,9 @@ function initGameSceneTwo(ctx, img) {
     drawFrame(currentFrame, 'move-down');
 
 
+
     function drawFrame(frameNumber, nameAnim) {
+
         ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 
         ctx.drawImage(apartment, apartmentObj.spriteX, apartmentObj.spriteY, apartmentObj.spriteWidth, apartmentObj.spriteHeight, apartmentObj.drawX, apartmentObj.drawY, apartmentObj.drawWidth, apartmentObj.drawHeight);
@@ -120,14 +196,19 @@ function initGameSceneTwo(ctx, img) {
 
         ctx.drawImage(ruslan, sx, sy, sw, sh, ruslanX, ruslanY, dw, dh);
 
+
         if (dialogVisible) {
             ctx.drawImage(dialogWindow, ruslanX - dw / 2, ruslanY - dh - 30)
 
             if (dialogContent) {
-                console.log(dialogContent)
+                ctx.drawImage(dialogWindowCheck, ruslanX - dw / 2 + 5, ruslanY - dh - 19, 25 * scale, 13 * scale)
+            } else {
+                ctx.drawImage(dialogWindowCross, ruslanX - dw / 2 + 5, ruslanY - dh - 19, 25 * scale, 13 * scale)
             }
         }
     }
+
+
 
     document.addEventListener('keydown', (e) => {
 
@@ -139,8 +220,19 @@ function initGameSceneTwo(ctx, img) {
         if (e.key === 'e' || e.key === 'E') {
             for (const obj of interactives) {
                 if (isColliding(ruslanX, ruslanY, ruslanObj.drawWidth, ruslanObj.drawHeight, obj.x, obj.y, obj.width, obj.height)) {
+
+
+                    if (interactivesStep === correctOrder.length) {
+                        break;
+                    }
+
+                    if (obj.name === correctOrder[interactivesStep]) {
+                        dialogContent = true;
+                        obj.state = true
+                        interactivesStep++
+                    }
+
                     dialogVisible = true
-                    dialogContent = obj.content
                     drawFrame(currentFrame, 'move-down')
                     clearTimeout(dialogTimer)
 
@@ -148,9 +240,10 @@ function initGameSceneTwo(ctx, img) {
 
                     dialogTimer = setTimeout(() => {
                         dialogVisible = false
-                        dialogContent = null
+                        dialogContent = false
                         drawFrame(currentFrame, 'move-down')
                     }, 2000)
+                    break;
                 }
 
             }
@@ -191,13 +284,50 @@ function initGameSceneTwo(ctx, img) {
     })
 
 
+
 }
 
 
-export default async function initGameSceneTwoContext(ctx) {
-    const [apartment, ruslan, dialogWindow] = await Promise.all([loadImage('/apartment-default.png'), loadImage('/sprite-ruslan-anims-2.png'), loadImage('./dialog-window.png')]);
 
-    initGameSceneTwo(ctx, [apartment, ruslan, dialogWindow]);
+
+export default async function initGameSceneTwoContext(ctx) {
+    const [
+        apartment,
+        ruslan,
+        dialogWindow,
+
+        dialogWindowCross,
+        dialogWindowCheck,
+
+        dialogToilet,
+        dialogShower,
+        dialogToothbrush,
+        dialogCloth,
+        dialogIroningboard,
+        dialogFridge,
+        dialogMicrowave,
+        dialogCup
+
+    ] = await Promise.all([
+        loadImage('/apartment-default.png'),
+        loadImage('/sprite-ruslan-anims-2.png'),
+        loadImage('./dialog-window.png'),
+        loadImage('./dialog-window-cross.png'),
+        loadImage('./dialog-window-check.png'),
+
+        loadImage('./dialog-window-toilet.png'),
+        loadImage('./dialog-window-shower.png'),
+        loadImage('./dialog-window-toothbrush.png'),
+        loadImage('./dialog-window-cloth.png'),
+        loadImage('./dialog-window-ironingboard.png'),
+        loadImage('./dialog-window-fridge.png'),
+        loadImage('./dialog-window-microwave.png'),
+        loadImage('./dialog-window-cup.png'),
+
+
+    ]);
+
+    initGameSceneTwo(ctx, [apartment, ruslan, dialogWindow, dialogWindowCross, dialogWindowCheck]);
 }
 
 function loadImage(src) {
@@ -248,12 +378,24 @@ function dbugger(ctx) {
     ctx.fillRect(5 * scale, (56 * scale) + 30, 16 * scale, 2 * scale);
     ctx.fillRect(25 * scale, (57 * scale) + 30, 25 * scale, 16 * scale);
     ctx.fillRect(73 * scale, (42 * scale) + 30, 15 * scale, 11 * scale);
+    ctx.fillRect(53 * scale, (159 * scale) + 30, 15 * scale, 10 * scale);
+    ctx.fillRect(27 * scale, (162 * scale) + 30, 25 * scale, 7 * scale);
+    ctx.fillRect(11 * scale, (159 * scale) + 30, 15 * scale, 10 * scale);
+    ctx.fillRect(13 * scale, (125 * scale) + 30, 10 * scale, 29 * scale);
+    ctx.fillRect(99 * scale, (141 * scale) + 30, 45 * scale, 27 * scale);
+    ctx.fillRect(113 * scale, (109 * scale) + 30, 31 * scale, 8 * scale);
+
 
 
     ctx.fillStyle = 'green'
     ctx.fillRect(140 * scale, (47 * scale) + 30, 3 * scale, 3 * scale);
-    ctx.fillRect(135 * scale, (12 * scale) + 30, 3 * scale, 3 * scale);
+    ctx.fillRect(135 * scale, (14 * scale) + 30, 3 * scale, 7 * scale);
     ctx.fillRect(100 * scale, (27 * scale) + 30, 3 * scale, 3 * scale);
+    ctx.fillRect(59 * scale, (156 * scale) + 30, 3 * scale, 3 * scale);
+    ctx.fillRect(23 * scale, (125 * scale) + 30, 3 * scale, 29 * scale);
+    ctx.fillRect(6 * scale, (20 * scale) + 30, 13 * scale, 3 * scale);
+    ctx.fillRect(26 * scale, (20 * scale) + 30, 13 * scale, 3 * scale);
+    ctx.fillRect(35 * scale, (54 * scale) + 30, 18 * scale, 16 * scale);
 }
 
 
